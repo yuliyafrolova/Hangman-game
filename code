@@ -1,0 +1,43 @@
+import random
+word = random.choice(["python", "java", "swift", "javascript"])
+
+print("H A N G M A N\n")
+won = 0
+lost = 0
+while True:
+    objective = input('Type "play" to play the game, "results" to show the scoreboard, and "exit" to quit:')
+    if objective == 'play':
+        hidden_answer = list(len(word) * '-')
+        letter_list = ""
+        attempts = 8
+        while True:
+            guess = input(f"{''.join(hidden_answer)}\nInput a letter: \n")
+            if len(guess) != 1:
+                print("Please, input a single letter.\n")
+                continue
+            elif not (guess.islower() and guess.isalpha()):
+                print("Please, enter a lowercase letter from the English alphabet.\n")
+                continue
+            if guess in letter_list:
+                print("You've already guessed this letter.\n")
+            elif guess in word:
+                for check in range(len(word)):
+                    if word[check] == guess:
+                        hidden_answer[check] = guess
+            else:
+                print("That letter doesn't appear in the word.\n")
+                attempts -= 1
+            letter_list += guess
+            if hidden_answer == list(word):
+                print(f'You guessed the word {word}!\nYou survived!')
+                won += 1
+                break
+            elif hidden_answer != list(word) and attempts <= 0:
+                print('You lost!')
+                lost += 1
+                break
+
+    elif objective == 'results':
+        print(f'You won: {won} times. \nYou lost: {lost} times.')
+    else:
+        break
